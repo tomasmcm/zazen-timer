@@ -4,7 +4,7 @@
   const LOCALDB_KEY = 'zazen-duration';
   const localDuration = localStorage.getItem(LOCALDB_KEY);
   let selectedDuration = localDuration || '30';
-  let currentSrc = undefined;
+  let playing = false;
   $: audioFile = `${selectedDuration}.m4a`;
   $: localStorage.setItem(LOCALDB_KEY, selectedDuration);
 
@@ -12,22 +12,23 @@
   let circleElement;
 
   async function start() {
-    currentSrc = audioFile
+    playing = true
     await tick();
     audioElement.pause();
     audioElement.currentTime = 0;
     audioElement.play();
   }
 
-  function end() {
+  async function end() {
     audioElement.pause();
     audioElement.currentTime = 0;
-    currentSrc = undefined
     updateTime();
+    await tick();
+    playing = false
   }
 
   function toggleTimer() {
-    if (audioElement?.paused) {
+    if (!playing) {
       start();
     } else {
       end();
@@ -46,7 +47,7 @@
 <main>
   <div class="progress" on:click={toggleTimer}>
     <div class="progress__number">
-      {audioElement?.paused ? 'START' : 'STOP'}
+      {!playing ? 'START' : 'STOP'}
     </div>
     <div class="progress__fill">
       <svg class="progress__svg" viewBox="0 0 40 40">
@@ -75,7 +76,7 @@
         /></svg
       >
     </span>
-    <select class="interval-select" bind:value={selectedDuration} disabled={!audioElement?.paused}>
+    <select class="interval-select" bind:value={selectedDuration} disabled={playing}>
       {#each INTERVAL_OPTIONS as interval}
         <option value={interval}>
           {interval}
@@ -84,7 +85,9 @@
     </select>
   </aside>
 
-  <audio src={currentSrc} bind:this={audioElement} on:timeupdate={updateTime} on:ended={end} />
+  {#if playing}
+    <audio src={audioFile} bind:this={audioElement} on:timeupdate={updateTime} on:ended={end} />
+  {/if}
 </main>
 <footer>
   <p>sounds by sfzc.org</p>
