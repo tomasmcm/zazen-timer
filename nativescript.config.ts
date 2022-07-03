@@ -1,7 +1,7 @@
 import { NativeScriptConfig } from '@nativescript/core';
 
 export default {
-  id: 'org.nativescript.zazen',
+  id: 'co.whitesmith.zazentimer',
   appPath: 'app',
   appResourcesPath: 'App_Resources',
   android: {
