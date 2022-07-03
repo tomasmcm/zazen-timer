@@ -4,7 +4,7 @@ You can use this file to perform app-level initialization, but the primary
 purpose of the file is to pass control to the app’s first page.
 */
 
-import { svelteNativeNoFrame } from 'svelte-native'
+import { svelteNative } from "svelte-native"
 import App from './App.svelte'
 
-svelteNativeNoFrame(App, {})
+svelteNative(App, {})

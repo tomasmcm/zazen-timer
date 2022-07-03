@@ -1,7 +1,7 @@
 import { NativeScriptConfig } from '@nativescript/core';
 
 export default {
-  id: 'org.nativescript.svelteappnativescript',
+  id: 'org.nativescript.zazen',
   appPath: 'app',
   appResourcesPath: 'App_Resources',
   android: {
