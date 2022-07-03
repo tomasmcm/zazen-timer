@@ -1,1 +1,7 @@
-﻿
+﻿Page { background-color: black; }
+page { background-color: black; }
+Frame { background-color: black; }
+frame { background-color: black; }
+frame.ns-root { background-color: black; }
+WebView { background-color: black; }
+webView { background-color: black; }
