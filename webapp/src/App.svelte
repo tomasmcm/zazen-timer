@@ -1,11 +1,17 @@
 <script>
   import { tick } from 'svelte';
-  const INTERVAL_OPTIONS = ['15', '20', '30', '40'];
+  const INTERVAL_OPTIONS = {
+    '15m': '15.m4a',
+    '20m': '20.m4a',
+    '30m': '30.m4a',
+    '40m': '40.m4a',
+    '30 🗣️': 'guided-30.m4a'
+  };
   const LOCALDB_KEY = 'zazen-duration';
   const localDuration = localStorage.getItem(LOCALDB_KEY);
-  let selectedDuration = localDuration || '30';
+  let selectedDuration = localDuration || '30m';
   let playing = false;
-  $: audioFile = `${selectedDuration}.m4a`;
+  $: audioFile = INTERVAL_OPTIONS[selectedDuration];
   $: localStorage.setItem(LOCALDB_KEY, selectedDuration);
 
   let audioElement;
@@ -77,7 +83,7 @@
       >
     </span>
     <select class="interval-select" bind:value={selectedDuration} disabled={playing}>
-      {#each INTERVAL_OPTIONS as interval}
+      {#each Object.keys(INTERVAL_OPTIONS) as interval}
         <option value={interval}>
           {interval}
         </option>
@@ -91,6 +97,7 @@
 </main>
 <footer>
   <p>sounds by sfzc.org</p>
+  <p>ai voice by narakeet.com</p>
   <p>tomasmcm – 2022</p>
 </footer>
 
